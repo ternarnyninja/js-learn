@@ -7,3 +7,4 @@ function processUserInput(callback) {
   callback(name);
 }
 
+// processUserInput(greeting);
