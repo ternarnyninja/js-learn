@@ -1,131 +1,176 @@
-let promise = new Promise(function(resolve, reject) {
-    setTimeout(() => resolve("done"), 1000); 
-});
+// let promise = new Promise(function(resolve, reject) {
+//     setTimeout(() => resolve("done"), 1000); 
+// });
 
-promise.then(
-    result => console.log(result), // "done"
-    error => console.log(error)
-);
+// promise.then(
+//     result => console.log(result), // "done"
+//     error => console.log(error)
+// );
 
-let promise1 = new Promise(function(resolve, reject) {
-    setTimeout(() => reject(new Error("Whoops")), 1000);
-});
+// let promise1 = new Promise(function(resolve, reject) {
+//     setTimeout(() => reject(new Error("Whoops")), 1000);
+// });
 
-promise1.then(
-    result => console.log(result),
-    error => console.log(error)
-);
+// promise1.then(
+//     result => console.log(result),
+//     error => console.log(error)
+// );
 
-let promise2 = new Promise(resolve => {
-    setTimeout(() => resolve("done"), 1000);
-});
+// let promise2 = new Promise(resolve => {
+//     setTimeout(() => resolve("done"), 1000);
+// });
 
-promise2.then(alert);
+// promise2.then(alert);
 
-// if we only need to handle the error 
-// can use .then(null, errorHandlingFunction) 
-// or .catch(errorHandlingFunction)
+// // if we only need to handle the error 
+// // can use .then(null, errorHandlingFunction) 
+// // or .catch(errorHandlingFunction)
 
-let promise3 = new Promise((resolve, reject) => {
-    setTimeout(() => reject(new Error("Error")), 1000);
-});
+// let promise3 = new Promise((resolve, reject) => {
+//     setTimeout(() => reject(new Error("Error")), 1000);
+// });
 
-promise3.then(null, alert);
-promise3.catch(alert);
+// promise3.then(null, alert);
+// promise3.catch(alert);
 
-// "use strict";
+// // "use strict";
 
-let promise5 = new Promise((resolve, reject) => {
-    throw new Error("error");
-});
+// let promise5 = new Promise((resolve, reject) => {
+//     throw new Error("error");
+// });
 
-promise5.finally(() => alert("Promise completed"));
-promise5.catch(err => alert(err));
+// promise5.finally(() => alert("Promise completed"));
+// promise5.catch(err => alert(err));
 
-let promise6 = new Promise(resolve => resolve("ready"));
+// let promise6 = new Promise(resolve => resolve("ready"));
 
-promise6.then(alert);
+// promise6.then(alert);
 
 
-function loadScriptCallback(src, callback) {
-  let script = document.createElement("script");
-  script.srt = src;
+// function loadScriptCallback(src, callback) {
+//   let script = document.createElement("script");
+//   script.srt = src;
 
-  script.onload = () => callback(null, script);
-  script.onerror = () => callback(new Error(`Error load script ${src}`));
+//   script.onload = () => callback(null, script);
+//   script.onerror = () => callback(new Error(`Error load script ${src}`));
 
-  document.head.append(script);
-}
+//   document.head.append(script);
+// }
 
-function loadScriptPromise(src) {
-  return new Promise((resolve, reject) => {
-    let script = document.createElement("script");
-    script.src = src;
+// function loadScriptPromise(src) {
+//   return new Promise((resolve, reject) => {
+//     let script = document.createElement("script");
+//     script.src = src;
 
-    script.onload = () => resolve(script);
-    script.onerror = () => reject(new Error(`Error load script ${src}`));
+//     script.onload = () => resolve(script);
+//     script.onerror = () => reject(new Error(`Error load script ${src}`));
 
-    document.head.append(script);
-  })
-}
+//     document.head.append(script);
+//   })
+// }
 
-let loadScript = loadScriptPromise("testScript");
+// let loadScript = loadScriptPromise("testScript");
 
-loadScript.then(
-  script => console.log(`${script.src} loaded`),
-  error => console.log(`Error: ${error.message}`)
-);
+// loadScript.then(
+//   script => console.log(`${script.src} loaded`),
+//   error => console.log(`Error: ${error.message}`)
+// );
 
-loadScript.then(script => console.log(`One more handler`));
+// loadScript.then(script => console.log(`One more handler`));
 
-// tasks
+// // tasks
 
-let promiseTask = new Promise((resolve, reject) => {
-    resolve(1);
+// let promiseTask = new Promise((resolve, reject) => {
+//     resolve(1);
 
-    setTimeout(() => resolve(2), 1000);
-});
+//     setTimeout(() => resolve(2), 1000);
+// });
 
-promiseTask.then(alert); // 1
-promiseTask.then(alert); // 1
+// promiseTask.then(alert); // 1
+// promiseTask.then(alert); // 1
 
-function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+// function delay(ms) {
+//   return new Promise(resolve => setTimeout(resolve, ms));
+// }
 
-delay(3000).then(() => console.log("done in 3 seconds"));
+// delay(3000).then(() => console.log("done in 3 seconds"));
 
-let promise = new Promise((resolve, reject) => {
-    setTimeout(() => resolve(1), 1000);
-});
+// let promise = new Promise((resolve, reject) => {
+//     setTimeout(() => resolve(1), 1000);
+// });
 
-console.log(promise);
+// console.log(promise);
 
-function start() {
-  renderCircle(150, 150, 100).then(div => {
-    div.classList.add('message-circle');
-    div.append("rofl!");
-  });
-}
+// function start() {
+//   renderCircle(150, 150, 100).then(div => {
+//     div.classList.add('message-circle');
+//     div.append("rofl!");
+//   });
+// }
 
-function renderCircle(x, y, radius) {
-  let div = document.createElement('div');
-  div.style.width = 0;
-  div.style.height = 0;
-  div.style.left = x + 'px';
-  div.style.top = y + 'px';
-  div.className = 'circle';
-  document.body.append(div);
+// function renderCircle(x, y, radius) {
+//   let div = document.createElement('div');
+//   div.style.width = 0;
+//   div.style.height = 0;
+//   div.style.left = x + 'px';
+//   div.style.top = y + 'px';
+//   div.className = 'circle';
+//   document.body.append(div);
 
-  return new Promise(resolve => {
-    setTimeout(() => {
-      div.style.width = radius * 2 + 'px';
-      div.style.height = radius * 2 + 'px';
+//   return new Promise(resolve => {
+//     setTimeout(() => {
+//       div.style.width = radius * 2 + 'px';
+//       div.style.height = radius * 2 + 'px';
 
-      div.addEventListener('transitionend',(handler) => {
-        div.removeEventListener('transitionend', handler);
-        resolve(div);
-      });
-    }, 0);
-  })
-}
+//       div.addEventListener('transitionend',(handler) => {
+//         div.removeEventListener('transitionend', handler);
+//         resolve(div);
+//       });
+//     }, 0);
+//   })
+// }
+
+// console.log("Request data...");
+
+// setTimeout(() => {
+//   console.log("Preparing data...")
+
+//   const backendData = {
+//     server: "aws",
+//     port: 2000,
+//     statys: "working"
+//   }
+
+//   setTimeout(() => {
+//     backendData.modified = true;
+//     console.log("Data received", backendData)
+//   }, 2000);
+// }, 2000);
+
+// console.log("Request data...");
+
+// let promise = new Promise((resolve, reject) => {
+//   setTimeout(() => {
+//     console.log("Preparing data...");
+//     const backendData = {
+//       server: "aws",
+//       port: 2000,
+//       statys: "working"
+//     }
+//     resolve(backendData);
+//   }, 2000);
+// }).then((backendData) => {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       backendData.modified = true;
+//       resolve(backendData);
+//     }, 2000)
+//   })
+// }).then(data=> {
+//   console.log("Data received", data)
+//   data.fromPromise = true;
+// }).then(newData => {
+//   console.log(newData);
+// })
+
+// hmmm
