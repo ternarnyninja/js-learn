@@ -257,3 +257,103 @@ let userProxy = new Proxy(user, {
 });
 
 console.log(userProxy.name); // Guest
+
+let user = {
+  _name: "Guest",
+  get name() {
+    return this._name;
+  }
+};
+
+let userProxy = new Proxy(user, {
+  get(target, prop, receiver) {
+    // return target[prop];
+    return Reflect.get(target, prop, receiver);
+  }
+});
+
+let admin = {
+  __proto__: userProxy,
+  _name: "Admin",
+};
+
+console.log(admin.name);
+
+let map = new Map();
+
+let proxy = new Proxy(map, {
+  get(target, prop, receiver) {
+    let value = Reflect.get(...arguments);
+    return typeof value === "function" ? value.bind(target) : value;
+  }
+ });
+
+proxy.set("test", 1);
+console.log(proxy.get("test")); // 1
+
+console.log(map);
+console.log(proxy);
+
+class User {
+  #name = "Guest";
+
+  getName() {
+    return this.#name;
+  }
+}
+
+let newUser = new User();
+
+newUser = new Proxy(newUser, {
+  get(target, prop, receiver) {
+    let value = Reflect.get(...arguments);
+    return typeof value === "function" ? value.bind(target) : value;
+  }
+});
+
+console.log(newUser.getName());
+
+let allUsers = new Set();
+
+class User {
+  constructor(name) {
+    this.name = name;
+    allUsers.add(this);
+  }
+}
+
+let user = new User("John");
+
+console.log(allUsers.has(user)); // true
+
+user = new Proxy(user, {});
+
+console.log(allUsers.has(user)); // false
+
+let object = {
+  data: "important data"
+};
+
+let {proxy, revoke} = Proxy.revoke(object, {});
+
+console.log(proxy.data);
+
+revoke();
+
+console.log(proxy.data);
+
+let revokes = new WeakMap();
+
+let object = {
+  data: "important data"
+};
+
+let {proxy, revoke} = Proxy.revocable(object, {});
+
+revokes.set(proxy, revoke);
+
+revoke = revokes.get(proxy);
+revoke();
+
+console.log(proxy.data);
+
